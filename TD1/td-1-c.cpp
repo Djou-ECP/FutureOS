@@ -59,5 +59,6 @@ int main(int argc, char const *argv[]) {
   incr(nLoops, &counter, &stop);
   std::cout << "Counter: " << counter << std::endl;
 
+  timer_delete(tid);
   return 0;
 }
