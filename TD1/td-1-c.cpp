@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <time.h>
+#include <climits>
 
 #include "timespec.h"
 
@@ -26,6 +27,16 @@ void incr(unsigned int nLoops, double *pCounter, volatile bool *pStop) {
 
 int main(int argc, char const *argv[]) {
   volatile bool stop = false;
+  int timer_1;
+  int timer_2;
+ 
+  if (argc == 3) {
+    timer_1 = std::stoi(argv[1]);
+    timer_2 = std::stoi(argv[2]);
+  } else {
+    timer_1 = 1;
+    timer_2 = 2;
+  }
 
   // Timer initialisation
   struct sigaction sa;
@@ -46,19 +57,27 @@ int main(int argc, char const *argv[]) {
   unsigned int nLoops = UINT_MAX;
 
   double counter = 0.0;
-  std::cout << "Starting 1s timer..." << std::endl;
-  startTimer(1, 0, &stop, &tid);
+  std::cout << "Starting " << timer_1 << "s timer..." << std::endl;
+  startTimer(timer_1, 0, &stop, &tid);
   incr(nLoops, &counter, &stop);
   std::cout << "Counter: " << counter << std::endl;
-
+  
+  int c_1 = counter;
   stop = false;
-  counter = 0;
-
-  std::cout << "Starting 5s timer..." << std::endl;
-  startTimer(5, 0, &stop, &tid);
+  counter = 0.0;
+  
+  std::cout << "Starting " << timer_2 << "s timer..." << std::endl;
+  startTimer(timer_2, 0, &stop, &tid);
   incr(nLoops, &counter, &stop);
   std::cout << "Counter: " << counter << std::endl;
+  
+  int c_2 = counter;
 
+  double a = (c_2 - c_1) / (timer_2 - (double)timer_1);
+  double b = c_1 - a * timer_1;
+
+  std::cout << "a: " << a << std::endl;
+  std::cout << "b: " << b << std::endl;
   timer_delete(tid);
   return 0;
 }
