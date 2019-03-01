@@ -1,7 +1,7 @@
+#include <climits>
 #include <iostream>
 #include <string>
 #include <time.h>
-#include <climits>
 
 #include "timespec.h"
 
@@ -29,7 +29,7 @@ int main(int argc, char const *argv[]) {
   volatile bool stop = false;
   int timer_1;
   int timer_2;
- 
+
   if (argc == 3) {
     timer_1 = std::stoi(argv[1]);
     timer_2 = std::stoi(argv[2]);
@@ -61,16 +61,16 @@ int main(int argc, char const *argv[]) {
   startTimer(timer_1, 0, &stop, &tid);
   incr(nLoops, &counter, &stop);
   std::cout << "Counter: " << counter << std::endl;
-  
+
   int c_1 = counter;
   stop = false;
   counter = 0.0;
-  
+
   std::cout << "Starting " << timer_2 << "s timer..." << std::endl;
   startTimer(timer_2, 0, &stop, &tid);
   incr(nLoops, &counter, &stop);
   std::cout << "Counter: " << counter << std::endl;
-  
+
   int c_2 = counter;
 
   double a = (c_2 - c_1) / (timer_2 - (double)timer_1);
