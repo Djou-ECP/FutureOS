@@ -18,9 +18,20 @@ private:
   static void call_callback(int sig, siginfo_t *si, void *user);
 };
 
-class PeriodicTimer : Timer {
+class PeriodicTimer : public Timer {
 public:
-  void start(double duration_ms);
+  virtual void start(double duration_ms);
+};
+
+class CountDown : public PeriodicTimer {
+public:
+  CountDown(int n);
+  int counter;
+  virtual void start(double duration_ms);
+
+protected:
+  const int base_counter;
+  virtual void callback();
 };
 
 #endif
