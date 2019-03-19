@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <pthread.h>
+#include "../TD1/timespec.h"
 
 class PosixThread {
 public:
@@ -25,7 +26,7 @@ private:
   static volatile bool hasFinished;
 };
 
-class Thread {
+class Thread: public PosixThread {
 public:
   Thread();
   ~Thread();
@@ -33,11 +34,14 @@ public:
   double startTime_ms();
   double stopTime_ms();
   double execTime_ms();
+  static void sleep_ms(double delay_ms);
 
 protected:
   void run();
 
 private:
-  void *call_run(void *v_thread);
+  static void *call_run(void *v_thread);
+  double startTime;
+  double stopTime;
 };
 #endif
