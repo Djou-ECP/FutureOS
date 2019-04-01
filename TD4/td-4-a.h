@@ -5,7 +5,8 @@
 #include <pthread.h>
 #include "../TD1/timespec.h"
 
-class PosixThread {
+class PosixThread 
+{
 public:
   class Exception;
   PosixThread();
@@ -26,7 +27,8 @@ private:
   static volatile bool hasFinished;
 };
 
-class Thread: public PosixThread {
+class Thread: public PosixThread 
+{
 public:
   Thread();
   ~Thread();

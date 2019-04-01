@@ -5,12 +5,14 @@
 
 #include "timespec.h"
 
-void switchHandler(int sig, siginfo_t *si, void *) {
+void switchHandler(int sig, siginfo_t *si, void *) 
+{
   bool *stop_ptr = (bool *)(si->si_value).sival_ptr;
   *stop_ptr = true;
 }
 
-void startTimer(int sec, int nsec, volatile bool *pStop, timer_t *tid) {
+void startTimer(int sec, int nsec, volatile bool *pStop, timer_t *tid) 
+{
   itimerspec its;
   its.it_value.tv_sec = sec;
   its.it_value.tv_nsec = nsec;
@@ -19,21 +21,27 @@ void startTimer(int sec, int nsec, volatile bool *pStop, timer_t *tid) {
   timer_settime(*tid, 0, &its, NULL);
 }
 
-void incr(unsigned int nLoops, double *pCounter, volatile bool *pStop) {
-  for (int i = 0; i < nLoops && !*pStop; i++) {
+void incr(unsigned int nLoops, double *pCounter, volatile bool *pStop) 
+{
+  for (int i = 0; i < nLoops && !*pStop; i++) 
+  {
     *pCounter += 1;
   }
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) 
+{
   volatile bool stop = false;
   int timer_1;
   int timer_2;
 
-  if (argc == 3) {
+  if (argc == 3) 
+  {
     timer_1 = std::stoi(argv[1]);
     timer_2 = std::stoi(argv[2]);
-  } else {
+  } 
+  else 
+  {
     timer_1 = 1;
     timer_2 = 2;
   }

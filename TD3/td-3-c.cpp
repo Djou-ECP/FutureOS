@@ -3,15 +3,15 @@
 #include <limits>
 #include <pthread.h>
 
-Calibrator::Calibrator(double samplingPeriod_ms, unsigned int nSamples)
-    : PeriodicTimer(), nSamples(nSamples),
-      samplingPeriod_ms(samplingPeriod_ms) {
+Calibrator::Calibrator(double samplingPeriod_ms, unsigned int nSamples): PeriodicTimer(), nSamples(nSamples), samplingPeriod_ms(samplingPeriod_ms) 
+{
   samples.reserve(nSamples);
   start(samplingPeriod_ms);
   looper.runLoop(std::numeric_limits<double>::max());
 }
 
-void Calibrator::computeCalibration() {
+void Calibrator::computeCalibration() 
+{
   // calcul de a et b
 
   // Calcul des moyennes
@@ -19,7 +19,8 @@ void Calibrator::computeCalibration() {
   double yTempMean = 0;
   if (nSamples < 2)
     std::cout << "Error: not enough samples !" << std::endl;
-  for (const auto &sample_pair : samples) {
+  for (const auto &sample_pair : samples) 
+  {
     yTempMean += sample_pair.first;
     xTempMean += sample_pair.second;
   }
@@ -29,7 +30,8 @@ void Calibrator::computeCalibration() {
   // Calcul des variances/covariances
   double cov = 0;
   double varx = 0;
-  for (const auto &sample_pair : samples) {
+  for (const auto &sample_pair : samples) 
+  {
     cov += (sample_pair.first - yMean) * (sample_pair.second - xMean);
     varx += (sample_pair.second - xMean) * (sample_pair.second - xMean);
   }
@@ -39,11 +41,15 @@ void Calibrator::computeCalibration() {
   std::cout << "Calibration is over a:" << a << " b:" << b << std::endl;
 }
 
-void Calibrator::callback() {
+void Calibrator::callback() 
+{
   double sample;
-  if (samples.size() < nSamples - 1) {
+  if (samples.size() < nSamples - 1) 
+  {
     sample = looper.getSample();
-  } else {
+  } 
+  else 
+  {
     sample = looper.stopLoop();
   }
   samples.push_back(
@@ -52,25 +58,38 @@ void Calibrator::callback() {
     computeCalibration();
 }
 
-double Calibrator::nLoops(double duration_ms) { return a * duration_ms + b; }
+double Calibrator::nLoops(double duration_ms) 
+{ 
+  return a * duration_ms + b; 
+}
 
-double Looper::runLoop(double nLoops) {
+double Looper::runLoop(double nLoops) 
+{
   iLoop = 0;
   doStop = false;
-  while (iLoop < nLoops && !doStop) {
+  while (iLoop < nLoops && !doStop) 
+  {
     iLoop++;
   }
 }
 
-double Looper::getSample() { return iLoop; }
+double Looper::getSample() 
+{ 
+  return iLoop; 
+}
 
-double Looper::stopLoop() {
+double Looper::stopLoop() 
+{
   doStop = true;
   return getSample();
 }
 
-CpuLoop::CpuLoop(Calibrator &calibrator) : calibrator(calibrator) {}
+CpuLoop::CpuLoop(Calibrator &calibrator) : calibrator(calibrator) 
+{
 
-void CpuLoop::runTime(double duration_ms) {
+}
+
+void CpuLoop::runTime(double duration_ms) 
+{
   Looper::runLoop(calibrator.nLoops(duration_ms));
 }

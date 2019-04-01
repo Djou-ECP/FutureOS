@@ -3,7 +3,8 @@
 
 #include "../TD1/timespec.h"
 
-class Chrono {
+class Chrono 
+{
 public:
   Chrono();
   void stop();

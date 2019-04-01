@@ -5,23 +5,28 @@
 
 #include "../TD1/timespec.h"
 
-struct counter {
+struct counter 
+{
   unsigned int nLoops;
   double *pCounter;
 };
 
-void incr(unsigned int nLoops, double *pCounter) {
-  for (int i = 0; i < nLoops; i++) {
+void incr(unsigned int nLoops, double *pCounter) 
+{
+  for (int i = 0; i < nLoops; i++) 
+  {
     *pCounter += 1;
   }
 }
 
-void *call_incr(void *v_counter) {
+void *call_incr(void *v_counter) 
+{
   volatile counter *p_counter = (volatile counter *)v_counter;
   incr(p_counter->nLoops, p_counter->pCounter);
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) 
+{
 
   /*
    Parsing arguments
@@ -45,11 +50,13 @@ int main(int argc, char const *argv[]) {
   pthread_t threads[nTasks];
 
   timespec before = timespec_now();
-  for (int i = 0; i < nTasks; i++) {
+  for (int i = 0; i < nTasks; i++) 
+  {
     pthread_create(&threads[i], NULL, call_incr, &count);
   }
 
-  for (int i = 0; i < nTasks; i++) {
+  for (int i = 0; i < nTasks; i++) 
+  {
     pthread_join(threads[i], NULL);
   }
   timespec after = timespec_now();

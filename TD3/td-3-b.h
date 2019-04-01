@@ -3,7 +3,8 @@
 
 #include "../TD1/timespec.h"
 
-class Timer {
+class Timer 
+{
 public:
   Timer();
   ~Timer();
@@ -18,12 +19,14 @@ private:
   static void call_callback(int sig, siginfo_t *si, void *user);
 };
 
-class PeriodicTimer : public Timer {
+class PeriodicTimer : public Timer 
+{
 public:
   virtual void start(double duration_ms);
 };
 
-class CountDown : public PeriodicTimer {
+class CountDown : public PeriodicTimer 
+{
 public:
   CountDown(int n);
   int counter;

@@ -5,7 +5,8 @@
 #include "td-3-b.h"
 #include <vector>
 
-class Looper {
+class Looper 
+{
 public:
   double runLoop(double nLoops);
   double getSample();
@@ -17,7 +18,8 @@ private:
   double iLoop;
 };
 
-class Calibrator : public PeriodicTimer {
+class Calibrator : public PeriodicTimer 
+{
 public:
   Calibrator(double samplingPeriod_ms, unsigned int nSamples);
   double nLoops(double duration_ms);
@@ -35,7 +37,8 @@ private:
   std::vector<std::pair<double, double>> samples;
 };
 
-class CpuLoop : public Looper {
+class CpuLoop : public Looper 
+{
 public:
   CpuLoop(Calibrator &);
   void runTime(double duration_ms);

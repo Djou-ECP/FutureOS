@@ -12,32 +12,38 @@ unsigned int nTasks;
 int priority;
 bool useMutex = false;
 
-struct counter {
+struct counter 
+{
   unsigned int nLoops;
   double *pCounter;
   pthread_mutex_t *mutex;
 };
 
-void incr(unsigned int nLoops, double *pCounter, pthread_mutex_t *mutex) {
-  for (int i = 0; i < nLoops; i++) {
+void incr(unsigned int nLoops, double *pCounter, pthread_mutex_t *mutex) 
+{
+  for (int i = 0; i < nLoops; i++) 
+  {
     pthread_mutex_lock(mutex);
     *pCounter += 1;
     pthread_mutex_unlock(mutex);
   }
 }
 
-void *call_incr(void *v_counter) {
+void *call_incr(void *v_counter) 
+{
   volatile counter *p_counter = (volatile counter *)v_counter;
 
   incr(p_counter->nLoops, p_counter->pCounter, p_counter->mutex);
 }
 
-int main(int argc, char const *argv[]) {
+int main(int argc, char const *argv[]) 
+{
 
   /*
    Parsing arguments
   */
-  if (argc > 3) {
+  if (argc > 3) 
+  {
     // Parsing amount of loops
     nLoops = std::stoi(argv[1]);
 
@@ -45,13 +51,15 @@ int main(int argc, char const *argv[]) {
     nTasks = std::stoi(argv[2]);
 
     // Parsing priority schedule
-    if (strcmp(argv[3], "SCHED_RR") && strcmp(argv[3], "SCHED_FIFO") &&
-        strcmp(argv[3], "SCHED_OTHER")) {
+    if (strcmp(argv[3], "SCHED_RR") && strcmp(argv[3], "SCHED_FIFO") && strcmp(argv[3], "SCHED_OTHER")) 
+    {
       std::cout << "Invalid scheduling parameter, must be 'SCHED_RR', "
                    "'SCHED_FIFO' or 'SCHED_OTHER'"
                 << std::endl;
       return 1;
-    } else {
+    } 
+    else 
+    {
       if (!strcmp(argv[3], "SCHED_RR"))
         priority = SCHED_RR;
       if (!strcmp(argv[3], "SCHED_FIFO"))
@@ -64,7 +72,9 @@ int main(int argc, char const *argv[]) {
     if (!strcmp(argv[4], "protected"))
       useMutex = true;
 
-  } else {
+  } 
+  else 
+  {
     // No argument, go for default value
     nLoops = 15;
     nTasks = 1;
@@ -101,14 +111,16 @@ int main(int argc, char const *argv[]) {
   }
 
   timespec before = timespec_now();
-  for (int i = 0; i < nTasks; i++) {
+  for (int i = 0; i < nTasks; i++) 
+  {
     pthread_create(&threads[i], &attr, call_incr, &count);
   }
 
   /*
     Waiting for the program to finish
   */
-  for (int i = 0; i < nTasks; i++) {
+  for (int i = 0; i < nTasks; i++) 
+  {
     pthread_join(threads[i], NULL);
   }
   if (useMutex) // when protected mode is enabled

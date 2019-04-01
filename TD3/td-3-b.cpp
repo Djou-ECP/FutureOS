@@ -1,7 +1,8 @@
 #include "td-3-b.h"
 #include <iostream>
 
-Timer::Timer() {
+Timer::Timer() 
+{
   // Timer initialisation
   struct sigaction sa;
   sa.sa_flags = SA_SIGINFO;
@@ -18,9 +19,13 @@ Timer::Timer() {
   // End timer initialisation
 }
 
-Timer::~Timer() { timer_delete(this->tid); }
+Timer::~Timer() 
+{ 
+  timer_delete(this->tid); 
+}
 
-void Timer::start(double duration_ms) {
+void Timer::start(double duration_ms) 
+{
   itimerspec its;
   its.it_value = timespec_from_ms(duration_ms);
   its.it_interval.tv_sec = 0;
@@ -28,7 +33,8 @@ void Timer::start(double duration_ms) {
   timer_settime(this->tid, 0, &its, NULL);
 }
 
-void Timer::stop() {
+void Timer::stop() 
+{
   itimerspec its;
   its.it_value.tv_sec = 0;
   its.it_value.tv_nsec = 0;
@@ -37,27 +43,34 @@ void Timer::stop() {
   timer_settime(this->tid, 0, &its, NULL);
 }
 
-void Timer::call_callback(int sig, siginfo_t *si, void *user) {
+void Timer::call_callback(int sig, siginfo_t *si, void *user) 
+{
   Timer *timer_ptr = (Timer *)(si->si_value).sival_ptr;
   timer_ptr->callback();
 }
 
-void PeriodicTimer::start(double duration_ms) {
+void PeriodicTimer::start(double duration_ms) 
+{
   itimerspec its;
   its.it_value = timespec_from_ms(duration_ms);
   its.it_interval = timespec_from_ms(duration_ms);
   timer_settime(this->tid, 0, &its, NULL);
 }
 
-CountDown::CountDown(int n) : base_counter(n) {}
+CountDown::CountDown(int n) : base_counter(n) 
+{
 
-void CountDown::start(double duration_ms) {
+}
+
+void CountDown::start(double duration_ms) 
+{
   this->counter = this->base_counter;
   std::cout << "Counter: " << this->counter << std::endl;
   PeriodicTimer::start(duration_ms);
 }
 
-void CountDown::callback() {
+void CountDown::callback() 
+{
   this->counter--;
   if (this->counter < 0)
     this->stop();
