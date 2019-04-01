@@ -4,13 +4,14 @@
 
 #include <iostream>
 
-int main(int argc, char const *argv[]) {
-  Calibrator calibrator(1000, 10);
-  /*
-  CountDown cd(10);
-  cd.start(1000);
-  while (cd.counter >= 0) {
-  }
-  */
-  return 0;
+int main(int argc, char const *argv[]) 
+{
+	Calibrator calibrator(1000, 10);
+	/*
+	CountDown cd(10);
+	cd.start(1000);
+	while (cd.counter >= 0) {
+	}
+	*/
+	return 0;
 }
