@@ -3,19 +3,20 @@
 
 #include "../TD1/timespec.h"
 
-class Chrono {
+class Chrono 
+{
 public:
-  Chrono();
-  void stop();
-  void restart();
-  bool isActive();
-  double startTime();
-  double stopTime();
-  double lap();
+	Chrono();
+	void stop();
+	void restart();
+	bool isActive();
+	double startTime();
+	double stopTime();
+	double lap();
 
 private:
-  timespec startTime_;
-  timespec stopTime_;
+	timespec startTime_;
+	timespec stopTime_;
 };
 
 #endif
